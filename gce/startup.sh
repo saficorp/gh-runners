@@ -23,6 +23,11 @@ export PATH="$PATH:/root/.local/bin"
 curl -sSL https://get.docker.com/ | sudo sh
 
 
+:> agents_to_install.csv && \
+echo '"projects/perfect-stock-396809/zones/us-central1-a/instances/gce-runner-6td4","[{""type"":""ops-agent""}]"' >> agents_to_install.csv && \
+curl -sSO https://dl.google.com/cloudagents/mass-provision-google-cloud-ops-agents.py && \
+python3 mass-provision-google-cloud-ops-agents.py --file agents_to_install.csv
+
 # access secret from secretsmanager
 secrets=$(gcloud secrets versions access latest --secret="runner-secret")
 # set secrets as env vars
@@ -50,4 +55,4 @@ RUNNER_ALLOW_RUNASROOT=1 /runner/config.sh --unattended --replace --work "/runne
 # install and start runner service
 cd /runner || exit
 ./svc.sh install
-./svc.sh start
+while true; do ./svc.sh start; done
