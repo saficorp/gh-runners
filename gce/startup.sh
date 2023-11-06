@@ -22,9 +22,10 @@ export PATH="$PATH:/root/.local/bin"
 
 curl -sSL https://get.docker.com/ | sudo sh
 
+export ZONE=$(curl http://metadata.google.internal/computeMetadata/v1/instance/zone -H Metadata-Flavor:Google | cut '-d/' -f4)
 
 :> agents_to_install.csv && \
-echo '"projects/perfect-stock-396809/zones/us-central1-a/instances/gce-runner-6td4","[{""type"":""ops-agent""}]"' >> agents_to_install.csv && \
+echo '"projects/perfect-stock-396809/zones/'$ZONE'/instances/'${HOSTNAME}'","[{""type"":""ops-agent""}]"' >> agents_to_install.csv && \
 curl -sSO https://dl.google.com/cloudagents/mass-provision-google-cloud-ops-agents.py && \
 python3 mass-provision-google-cloud-ops-agents.py --file agents_to_install.csv
 
