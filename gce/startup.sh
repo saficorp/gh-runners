@@ -38,7 +38,7 @@ for var in "${secretsConfig[@]}"; do
 export "${var?}"
 done
 # github runner version
-GH_RUNNER_VERSION="2.308.0"
+GH_RUNNER_VERSION="2.319.0"
 # get actions binary
 curl -o actions.tar.gz --location "https://github.com/actions/runner/releases/download/v${GH_RUNNER_VERSION}/actions-runner-linux-x64-${GH_RUNNER_VERSION}.tar.gz"
 mkdir /runner
